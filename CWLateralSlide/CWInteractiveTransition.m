@@ -80,10 +80,21 @@
     return nil;
 }
 
+#pragma mark - setter
+
+- (void)setDelegate:(id<CWInteractiveTransitionDelegate>)delegate
+{
+    _delegate = delegate;
+}
+
 #pragma mark -GestureRecognizer
 - (void)cw_singleTap {
     if (_type == CWDrawerTransitiontypeShow) return;
-    [self.weakVC dismissViewControllerAnimated:YES completion:nil];
+    [self.weakVC dismissViewControllerAnimated:YES completion:^{
+        if (self.delegate && [self.delegate respondsToSelector:@selector(cw_finishInteractiveTransition)]) {
+            [self.delegate cw_finishInteractiveTransition];
+        }
+    }];
 }
 
 - (void)cw_handleHiddenPan:(NSNotification *)note {
@@ -222,6 +233,10 @@
 - (void)stopDisplayerLink {
     [self.link invalidate];
     self.link = nil;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cw_finishInteractiveTransition)]) {
+        [self.delegate cw_finishInteractiveTransition];
+    }
 }
 
 - (void)cw_update {

@@ -9,11 +9,23 @@
 #import <UIKit/UIKit.h>
 #import "CWDrawerTransition.h"
 
+@protocol CWInteractiveTransitionDelegate <NSObject>
+
+@optional
+
+/**
+ InteractiveTransition时的回调
+ */
+- (void)cw_finishInteractiveTransition;
+
+@end
+
 @interface CWInteractiveTransition : UIPercentDrivenInteractiveTransition
 
 @property (nonatomic,weak) CWLateralSlideConfiguration *configuration;
 @property (nonatomic,assign) BOOL interacting;
 
+@property (nonatomic, weak) id <CWInteractiveTransitionDelegate>delegate;
 
 - (instancetype)initWithTransitiontype:(CWDrawerTransitiontype)type;
 
