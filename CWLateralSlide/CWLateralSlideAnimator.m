@@ -18,6 +18,13 @@
 
 @implementation CWLateralSlideAnimator
 
+#pragma mark - dealloc
+
+- (void)dealloc {
+    //    NSLog(@"%s",__func__);
+}
+
+#pragma mark - init
 
 - (instancetype)initWithConfiguration:(CWLateralSlideConfiguration *)configuration {
     if (self = [super init]) {
@@ -30,18 +37,16 @@
     return [[self alloc] initWithConfiguration:configuration];
 }
 
-- (void)dealloc {
-//    NSLog(@"%s",__func__);
-}
+#pragma mark - setter
 
 - (void)setConfiguration:(CWLateralSlideConfiguration *)configuration {
     _configuration = configuration;
     [self.interactiveShow setValue:configuration forKey:@"configuration"];
     [self.interactiveHidden setValue:configuration forKey:@"configuration"];
-
 }
 
-#pragma mark -UIViewControllerTransitioningDelegate
+#pragma mark - UIViewControllerTransitioningDelegate
+
 - (nullable id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     return [CWDrawerTransition transitionWithType:CWDrawerTransitiontypeShow animationType:_animationType configuration:_configuration];
 }
@@ -55,11 +60,7 @@
 }
 
 - (nullable id <UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id <UIViewControllerAnimatedTransitioning>)animator {
-//    NSLog(@"----------------------%@",self.interactiveHidden);
     return self.interactiveHidden.interacting ? self.interactiveHidden : nil;
 }
-
-
-
 
 @end

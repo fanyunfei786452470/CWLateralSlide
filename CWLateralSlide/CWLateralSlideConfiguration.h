@@ -59,18 +59,16 @@ typedef NS_ENUM(NSUInteger,CWDrawerTransitionDirection) {
  */
 @property (nonatomic,strong) UIImage *backImage;
 
-
-
 /**
  默认配置
-
+ 
  @return 配置对象本身
  */
 + (instancetype)defaultConfiguration;
 
 /**
  创建一个配置对象的实例方法
-
+ 
  @param distance 偏移距离
  @param alpha 遮罩的透明度
  @param scaleY y方向的缩放 (仅CWDrawerAnimationTypeDefault动画模式有效)
@@ -78,11 +76,15 @@ typedef NS_ENUM(NSUInteger,CWDrawerTransitionDirection) {
  @param backImage 动画切换过程中，最底层的背景图片 (仅CWDrawerAnimationTypeDefault动画模式有效)
  @return 配置对象本身
  */
-- (instancetype)initWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(CWDrawerTransitionDirection)direction backImage:(UIImage *)backImage;
+- (instancetype)initWithDistance:(float)distance
+                       maskAlpha:(float)alpha
+                          scaleY:(float)scaleY
+                       direction:(CWDrawerTransitionDirection)direction
+                       backImage:(UIImage *)backImage;
 
 /**
  创建一个配置对象的类方法
-
+ 
  @param distance 偏移距离
  @param alpha 遮罩的透明度
  @param scaleY y方向的缩放
@@ -90,6 +92,10 @@ typedef NS_ENUM(NSUInteger,CWDrawerTransitionDirection) {
  @param backImage 动画切换过程中，最底层的背景图片
  @return 配置对象本身
  */
-+ (instancetype)configurationWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(CWDrawerTransitionDirection)direction backImage:(UIImage *)backImage;
++ (instancetype)configurationWithDistance:(float)distance
+                                maskAlpha:(float)alpha
+                                   scaleY:(float)scaleY
+                                direction:(CWDrawerTransitionDirection)direction
+                                backImage:(UIImage *)backImage;
 
 @end

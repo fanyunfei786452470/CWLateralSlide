@@ -10,11 +10,20 @@
 #import <UIKit/UIKit.h>
 #import "CWLateralSlideConfiguration.h"
 
+
+UIKIT_EXTERN NSString *const CWLateralSlideAnimatorKey;
+UIKIT_EXTERN NSString *const CWLateralSlideMaskViewKey;
+UIKIT_EXTERN NSString *const CWLateralSlideInterativeKey;
+
+UIKIT_EXTERN NSString *const CWLateralSlidePanNoticationKey;
+UIKIT_EXTERN NSString *const CWLateralSlideTapNoticationKey;
+
+UIKIT_EXTERN NSString *const CWLateralSlideDirectionKey;
+
 typedef NS_ENUM(NSUInteger,CWDrawerTransitiontype) {
     CWDrawerTransitiontypeShow = 0,      // 显示抽屉
     CWDrawerTransitiontypeHidden,        // 隐藏抽屉
 };
-
 
 typedef NS_ENUM(NSUInteger,CWDrawerAnimationType) {
     CWDrawerAnimationTypeDefault = 0,
@@ -23,9 +32,13 @@ typedef NS_ENUM(NSUInteger,CWDrawerAnimationType) {
 
 @interface CWDrawerTransition : NSObject<UIViewControllerAnimatedTransitioning>
 
-- (instancetype)initWithTransitionType:(CWDrawerTransitiontype)transitionType animationType:(CWDrawerAnimationType)animationType configuration:(CWLateralSlideConfiguration *)configuration;
+- (instancetype)initWithTransitionType:(CWDrawerTransitiontype)transitionType
+                         animationType:(CWDrawerAnimationType)animationType
+                         configuration:(CWLateralSlideConfiguration *)configuration;
 
-+ (instancetype)transitionWithType:(CWDrawerTransitiontype)transitionType animationType:(CWDrawerAnimationType)animationType configuration:(CWLateralSlideConfiguration *)configuration;
++ (instancetype)transitionWithType:(CWDrawerTransitiontype)transitionType
+                     animationType:(CWDrawerAnimationType)animationType
+                     configuration:(CWLateralSlideConfiguration *)configuration;
 
 @end
 
@@ -40,15 +53,6 @@ typedef NS_ENUM(NSUInteger,CWDrawerAnimationType) {
 
 @end
 
-
-UIKIT_EXTERN NSString *const CWLateralSlideAnimatorKey;
-UIKIT_EXTERN NSString *const CWLateralSlideMaskViewKey;
-UIKIT_EXTERN NSString *const CWLateralSlideInterativeKey;
-
-UIKIT_EXTERN NSString *const CWLateralSlidePanNoticationKey;
-UIKIT_EXTERN NSString *const CWLateralSlideTapNoticationKey;
-
-UIKIT_EXTERN NSString *const CWLateralSlideDirectionKey;
 
 
 

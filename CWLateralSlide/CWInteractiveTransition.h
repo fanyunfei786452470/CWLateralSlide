@@ -14,7 +14,7 @@
 @optional
 
 /**
- InteractiveTransition时的回调
+ InteractiveTransition 完成时的回调
  */
 - (void)cw_finishInteractiveTransition;
 
@@ -22,8 +22,9 @@
 
 @interface CWInteractiveTransition : UIPercentDrivenInteractiveTransition
 
-@property (nonatomic,weak) CWLateralSlideConfiguration *configuration;
-@property (nonatomic,assign) BOOL interacting;
+@property (nonatomic, assign) BOOL interacting;
+
+@property (nonatomic, weak) CWLateralSlideConfiguration *configuration;
 
 @property (nonatomic, weak) id <CWInteractiveTransitionDelegate>delegate;
 

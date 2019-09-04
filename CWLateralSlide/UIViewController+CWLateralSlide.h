@@ -12,9 +12,22 @@
 
 @interface UIViewController (CWLateralSlide)
 
-/*-----------------------------------v1.6.4-----------------------------------------*/
-/*-----------------------------------v1.6.4-----------------------------------------*/
-/*-----------------------------------v1.6.4-----------------------------------------*/
+#pragma mark - register gesture
+
+/**
+ 注册手势驱动方法，侧滑呼出的方向自动确定，一般在viewDidLoad调用，调用之后会添加一个支持侧滑的手势到本控制器
+ 
+ @param openEdgeGesture 是否开启边缘手势,系统的边缘手势判断
+ @param transitionDirectionAutoBlock 手势过程中执行的操作。根据参数direction传整个点击present的事件即可（看demo的使用）
+ */
+- (void)cw_registerShowIntractiveWithEdgeGesture:(BOOL)openEdgeGesture
+                    transitionDirectionAutoBlock:(void(^)(CWDrawerTransitionDirection direction))transitionDirectionAutoBlock;
+
+- (void)cw_registerShowIntractiveWithOpenLeftEdgeGesture:(BOOL)openLeftEdgeGesture
+                                    openRightEdgeGesture:(BOOL)openRightEdgeGesture
+                            transitionDirectionAutoBlock:(void(^)(CWDrawerTransitionDirection direction))transitionDirectionAutoBlock;
+
+#pragma mark - present
 
 /**
  显示默认抽屉
@@ -25,7 +38,7 @@
 
 /**
  呼出侧滑控制器的方法（主要）
-
+ 
  @param viewController 需要侧滑显示出来的控制器
  @param animationType 侧滑时候的动画类型
  @param configuration 侧滑过程的一些参数配置，如果传nil会创建一个默认的配置参数
@@ -35,13 +48,22 @@
                       configuration:(CWLateralSlideConfiguration *)configuration;
 
 /**
- 注册手势驱动方法，侧滑呼出的方向自动确定，一般在viewDidLoad调用，调用之后会添加一个支持侧滑的手势到本控制器
- 
- @param openEdgeGesture 是否开启边缘手势,系统的边缘手势判断
- @param transitionDirectionAutoBlock 手势过程中执行的操作。根据参数direction传整个点击present的事件即可（看demo的使用）
+ Custom present method 自定义的present动画
+ present another viewController in the side slip out of the controller 在侧滑界面present另一个界面
+ @param viewController Need to present of the controller
  */
-- (void)cw_registerShowIntractiveWithEdgeGesture:(BOOL)openEdgeGesture
-                    transitionDirectionAutoBlock:(void(^)(CWDrawerTransitionDirection direction))transitionDirectionAutoBlock;
+- (void)cw_presentViewController:(UIViewController *)viewController;
+
+/**
+ Custom present method 自定义的present动画
+ present another viewController in the side slip out of the controller 在侧滑界面present另一个界面
+ @param vc Need to present of the controller
+ @param hidden  The Drewer isHidden . present时抽屉是否隐藏
+ */
+- (void)cw_presentViewController:(UIViewController *)vc
+                    drewerHidden:(BOOL)hidden;
+
+#pragma mark - push
 
 /**
  Custom push method 自定义的push动画
@@ -59,21 +81,8 @@
 - (void)cw_pushViewController:(UIViewController *)vc
          drewerHiddenDuration:(NSTimeInterval)duration;
 
-/**
- Custom present method 自定义的present动画
- present another viewController in the side slip out of the controller 在侧滑界面present另一个界面
- @param viewController Need to present of the controller
- */
-- (void)cw_presentViewController:(UIViewController *)viewController;
 
-/**
- Custom present method 自定义的present动画
- present another viewController in the side slip out of the controller 在侧滑界面present另一个界面
- @param vc Need to present of the controller
- @param hidden  The Drewer isHidden . present时抽屉是否隐藏
- */
-- (void)cw_presentViewController:(UIViewController *)vc
-                    drewerHidden:(BOOL)hidden;
+#pragma mark - dismiss
 
 /**
  Custom present method 自定义的dismiss动画

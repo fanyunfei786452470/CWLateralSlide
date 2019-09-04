@@ -8,6 +8,17 @@
 
 #import "CWDrawerTransition.h"
 #import <objc/runtime.h>
+
+
+NSString *const CWLateralSlideMaskViewKey = @"CWLateralSlideMaskViewKey";
+NSString *const CWLateralSlideAnimatorKey = @"CWLateralSlideAnimatorKey";
+NSString *const CWLateralSlideInterativeKey = @"CWLateralSlideInterativeKey";
+
+NSString *const CWLateralSlidePanNoticationKey = @"CWLateralSlidePanNoticationKey";
+NSString *const CWLateralSlideTapNoticationKey = @"CWLateralSlideTapNoticationKey";
+
+NSString *const CWLateralSlideDirectionKey = @"CWLateralSlideDirectionKey";
+
 @interface CWDrawerTransition ()
 
 @property (nonatomic,weak) CWLateralSlideConfiguration *configuration;
@@ -21,19 +32,27 @@
     CGFloat _hiddenDelayTime;
 }
 
+#pragma mark - init
 
-- (instancetype)initWithTransitionType:(CWDrawerTransitiontype)transitionType animationType:(CWDrawerAnimationType)animationType configuration:(CWLateralSlideConfiguration *)configuration {
+- (instancetype)initWithTransitionType:(CWDrawerTransitiontype)transitionType
+                         animationType:(CWDrawerAnimationType)animationType
+                         configuration:(CWLateralSlideConfiguration *)configuration
+{
     if (self = [super init]) {
         _TransitionType = transitionType;
         _animationType = animationType;
         _configuration = configuration;
-        if (_TransitionType == CWDrawerTransitiontypeHidden)
-        [self setupHiddenAnimationDelayTime];
+        if (_TransitionType == CWDrawerTransitiontypeHidden) {
+            [self setupHiddenAnimationDelayTime];
+        }
     }
     return self;
 }
 
-+ (instancetype)transitionWithType:(CWDrawerTransitiontype)transitionType animationType:(CWDrawerAnimationType)animationType configuration:(CWLateralSlideConfiguration *)configuration {
++ (instancetype)transitionWithType:(CWDrawerTransitiontype)transitionType
+                     animationType:(CWDrawerAnimationType)animationType
+                     configuration:(CWLateralSlideConfiguration *)configuration
+{
     return [[self alloc] initWithTransitionType:transitionType animationType:animationType configuration:configuration];
 }
 
@@ -45,6 +64,7 @@
 }
 
 #pragma mark - UIViewControllerAnimatedTransitioning
+
 - (NSTimeInterval)transitionDuration:(nullable id <UIViewControllerContextTransitioning>)transitionContext {
     return _TransitionType == CWDrawerTransitiontypeShow ? self.configuration.showAnimDuration : self.configuration.HiddenAnimDuration;
 }
@@ -62,13 +82,14 @@
     }
 }
 
-#pragma mark - private methods
+#pragma mark - private
+
 - (void)animationViewShow:(id <UIViewControllerContextTransitioning>)transitionContext {
     if (_animationType == CWDrawerAnimationTypeDefault) {
         [self defaultAnimationWithContext:transitionContext];
-    }else if (_animationType == CWDrawerAnimationTypeMask) {
+    } else if (_animationType == CWDrawerAnimationTypeMask) {
         [self maskAnimationWithContext:transitionContext];
-    }else {
+    } else {
         
     }
 }
@@ -87,14 +108,14 @@
             }
         }
     }
-
+    
     UIView *containerView = [transitionContext containerView];
     UIImageView *backImageView;
     if ([containerView.subviews.firstObject isKindOfClass:[UIImageView class]])
         backImageView = containerView.subviews.firstObject;
     
     [UIView animateKeyframesWithDuration:[self transitionDuration:transitionContext] delay:_hiddenDelayTime options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
-
+        
         [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:1.0 animations:^{
             toVC.view.transform = CGAffineTransformIdentity;
             fromVC.view.transform = CGAffineTransformIdentity;
@@ -149,7 +170,7 @@
     CGAffineTransform toVCTransform;
     if (self.configuration.direction == CWDrawerTransitionFromRight) {
         toVCTransform = CGAffineTransformMakeTranslation(ret * (x - CGRectGetWidth(containerView.frame) + width), 0);
-    }else {
+    } else {
         toVCTransform = CGAffineTransformMakeTranslation(ret * width / 2, 0);
     }
     
@@ -173,7 +194,7 @@
             }
             [transitionContext completeTransition:YES];
             [containerView addSubview:fromVC.view];
-        }else {
+        } else {
             [imageV removeFromSuperview];
             [CWMaskView releaseInstance];
             [transitionContext completeTransition:NO];
@@ -220,18 +241,16 @@
             [containerView addSubview:fromVC.view];
             [containerView bringSubviewToFront:toVC.view];
             maskView.userInteractionEnabled = YES;
-        }else {
+        } else {
             [CWMaskView releaseInstance];
             [transitionContext completeTransition:NO];
         }
     }];
 }
 
-
 - (void)dealloc {
-//    NSLog(@"%s",__func__);
+    //    NSLog(@"%s",__func__);
 }
-
 
 @end
 
@@ -247,7 +266,7 @@ static dispatch_once_t cw_onceToken;
     return cw_shareInstance;
 }
 
-+ (void)releaseInstance{
++ (void)releaseInstance {
     [cw_shareInstance removeFromSuperview];
     cw_onceToken = 0;
     cw_shareInstance = nil;
@@ -257,7 +276,8 @@ static dispatch_once_t cw_onceToken;
     //    NSLog(@"mask dealloc");
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         
         self.backgroundColor = [UIColor blackColor];
@@ -283,19 +303,10 @@ static dispatch_once_t cw_onceToken;
     [[NSNotificationCenter defaultCenter] postNotificationName:CWLateralSlidePanNoticationKey object:pan];
 }
 
-// 屏蔽掉touchesbegin的响应链
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event { }
 
 @end
 
-NSString *const CWLateralSlideMaskViewKey = @"CWLateralSlideMaskViewKey";
-NSString *const CWLateralSlideAnimatorKey = @"CWLateralSlideAnimatorKey";
-NSString *const CWLateralSlideInterativeKey = @"CWLateralSlideInterativeKey";
-
-NSString *const CWLateralSlidePanNoticationKey = @"CWLateralSlidePanNoticationKey";
-NSString *const CWLateralSlideTapNoticationKey = @"CWLateralSlideTapNoticationKey";
-
-NSString *const CWLateralSlideDirectionKey = @"CWLateralSlideDirectionKey";
 
 
 
